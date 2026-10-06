@@ -1,0 +1,434 @@
+/* ============================================================
+   LizardTrail — дизайн-система (токены из Stitch DESIGN.md)
+   ============================================================ */
+
+:root {
+  /* Цвета */
+  --red: #D81324;              /* primary-container / CTA */
+  --red-dark: #B90E1D;         /* hover/active */
+  --ink: #111827;              /* заголовки, иконки */
+  --on-surface: #191c1e;       /* основной текст */
+  --surface: #F8F9FB;          /* фон страницы */
+  --surface-low: #F3F4F6;      /* фон блоков/инпутов */
+  --white: #FFFFFF;            /* карточки */
+  --border: #E5E7EB;           /* hairline-границы */
+  --secondary: #575E70;        /* серый текст */
+
+  /* Типографика */
+  --font-head: 'Barlow Condensed', sans-serif;
+  --font-body: 'Inter', sans-serif;
+
+  /* Тени */
+  --shadow: 0 1px 3px rgba(17, 24, 39, 0.08), 0 1px 2px rgba(17, 24, 39, 0.04);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+html, body {
+  min-height: 100%;
+  background: var(--surface);
+  color: var(--on-surface);
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+body { display: flex; justify-content: center; align-items: flex-start; }
+
+.screen {
+  width: 100%;
+  max-width: 480px;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+}
+
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; }
+
+/* ---------- Header (Экран 0) ---------- */
+.header { text-align: center; padding-top: 20px; }
+
+.logo {
+  font-family: var(--font-head);
+  font-size: 34px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  line-height: 1.05;
+  color: var(--ink);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  padding: 4px 12px;
+  background: #edeef0;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--on-surface);
+}
+
+.badge .dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--red);
+  animation: pulse 1.6s infinite;
+}
+
+@keyframes pulse { 50% { opacity: 0.35; } }
+
+.subtitle { margin-top: 10px; color: var(--secondary); font-size: 14px; }
+
+/* ---------- Status banner ---------- */
+.status-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  background: var(--surface-low);
+  border-radius: 12px;
+  padding: 10px 14px;
+  box-shadow: var(--shadow);
+}
+
+.status-banner .left { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.status-banner .live { display: flex; align-items: center; gap: 8px; }
+.status-banner .live-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #16a34a;
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.2);
+}
+.status-banner .text { font-size: 13px; font-weight: 600; color: var(--on-surface); }
+.status-banner .tag {
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  color: var(--secondary); background: #e1e2e4;
+  padding: 3px 8px; border-radius: 4px; white-space: nowrap;
+}
+
+/* ---------- Cards (Экран 0) ---------- */
+.cards { flex: 1; display: flex; flex-direction: column; gap: 14px; }
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: var(--shadow);
+  transition: transform 0.08s ease, border-color 0.08s ease;
+}
+.card:active { transform: scale(0.98); border-color: var(--red); }
+
+.card__top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.card__body { display: flex; align-items: flex-start; gap: 12px; min-width: 0; flex: 1; }
+
+.card__icon {
+  width: 48px; height: 48px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--red);
+  background: #ffdad6;
+}
+.card__icon svg { width: 28px; height: 28px; }
+
+.card__eyebrow { font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.08em; color: var(--red); }
+
+.card__title {
+  font-family: var(--font-head);
+  font-size: 22px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  color: var(--ink);
+  line-height: 1.1;
+}
+
+.card__text { font-size: 13px; color: var(--secondary); }
+
+.card__arrow {
+  width: 36px; height: 36px;
+  flex-shrink: 0;
+  align-self: center;
+  border-radius: 8px;
+  background: var(--surface-low);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--on-surface);
+}
+.card__arrow svg { width: 20px; height: 20px; }
+
+.card__tags { display: flex; flex-wrap: wrap; gap: 6px; padding-top: 8px; }
+.chip {
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 4px;
+  background: #edeef0; color: var(--on-surface);
+}
+
+/* ---------- Footer ---------- */
+.footer { display: flex; flex-direction: column; gap: 12px; padding-bottom: 8px; }
+
+.chat-btn {
+  width: 100%; height: 48px;
+  background: var(--red); color: #fff;
+  border: none; border-radius: 8px;
+  font-family: var(--font-head); font-size: 15px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.05em;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  box-shadow: var(--shadow);
+}
+.chat-btn:active { background: var(--red-dark); }
+
+.contact-box {
+  background: var(--surface-low);
+  border-radius: 12px;
+  padding: 12px 14px;
+  display: flex; flex-direction: column; gap: 8px;
+  font-size: 13px;
+}
+.contact-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.contact-row .label { font-size: 10px; font-weight: 700; text-transform: uppercase; color: var(--secondary); }
+.contact-row .value { font-weight: 500; color: var(--on-surface); }
+
+/* ---------- App bar (формы) ---------- */
+.appbar {
+  position: sticky; top: 0; z-index: 10;
+  background: rgba(248, 249, 251, 0.9);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 10px;
+  height: 56px;
+  padding: 0 12px;
+  margin: -16px -16px 0;
+}
+.appbar .icon-btn {
+  width: 40px; height: 40px;
+  border: none; background: transparent;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--on-surface);
+  border-radius: 8px;
+  font-size: 22px;
+}
+.appbar .icon-btn:active { color: var(--red); }
+.appbar__title {
+  font-family: var(--font-head); font-size: 18px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.02em;
+}
+
+/* ---------- Intro (формы) ---------- */
+.intro {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+}
+.intro__title { display: flex; align-items: center; gap: 8px; }
+.intro__title .step {
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  background: #edeef0; color: var(--secondary); padding: 2px 6px; border-radius: 4px;
+}
+.intro h1 {
+  font-family: var(--font-head); font-size: 22px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.01em; color: var(--ink);
+}
+.intro p { font-size: 12px; color: var(--secondary); }
+
+/* ---------- Формы ---------- */
+.form { display: flex; flex-direction: column; gap: 14px; padding-bottom: 24px; }
+
+.block { display: flex; flex-direction: column; gap: 12px; }
+
+.block__label {
+  display: flex; align-items: center; justify-content: space-between;
+  font-family: var(--font-head); font-size: 18px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.02em; color: var(--ink);
+}
+.block__label .hint { font-size: 10px; font-weight: 700; text-transform: uppercase; color: var(--secondary); }
+
+/* Counter */
+.counter {
+  display: flex; align-items: center; justify-content: space-between;
+  background: var(--surface-low); border-radius: 8px; padding: 8px;
+}
+.counter__btn {
+  width: 44px; height: 44px;
+  border: none; border-radius: 6px;
+  background: var(--white); color: var(--on-surface);
+  font-size: 24px; line-height: 1;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: var(--shadow);
+}
+.counter__btn:active { color: var(--red); transform: scale(0.95); }
+.counter__value { display: flex; flex-direction: column; align-items: center; }
+.counter__num { font-family: var(--font-head); font-size: 28px; font-weight: 700; line-height: 1; }
+.counter__label { font-size: 10px; font-weight: 700; text-transform: uppercase; color: var(--secondary); }
+
+/* Radio cards (уровень) */
+.radio-card {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 12px;
+  border-radius: 12px;
+  background: var(--surface-low);
+  cursor: pointer;
+  transition: background 0.1s ease, box-shadow 0.1s ease;
+}
+.radio-card input { display: none; }
+.radio-card__indicator {
+  width: 20px; height: 20px; flex-shrink: 0;
+  margin-top: 1px;
+  border-radius: 50%;
+  background: #e1e2e4;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff;
+}
+.radio-card__indicator svg { width: 14px; height: 14px; opacity: 0; }
+.radio-card__title { font-family: var(--font-head); font-size: 17px; font-weight: 600; text-transform: uppercase; }
+.radio-card__desc { font-size: 12px; color: var(--secondary); margin-top: 2px; }
+.radio-card.is-active {
+  background: rgba(216, 19, 36, 0.06);
+  box-shadow: var(--shadow);
+}
+.radio-card.is-active .radio-card__title { color: var(--red); }
+.radio-card.is-active .radio-card__indicator { background: var(--red); }
+.radio-card.is-active .radio-card__indicator svg { opacity: 1; }
+
+/* Segmented (аренда) */
+.segmented {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+  background: var(--surface-low); padding: 4px; border-radius: 8px;
+}
+.seg {
+  border: none; border-radius: 6px;
+  padding: 10px;
+  background: transparent; color: var(--secondary);
+  font-family: var(--font-head); font-size: 14px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.04em;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+.seg.is-active { background: var(--red); color: #fff; box-shadow: var(--shadow); }
+
+/* Inputs */
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field__label { font-size: 12px; font-weight: 600; color: var(--secondary); }
+.field input, .field textarea {
+  width: 100%;
+  background: var(--surface-low);
+  border: 1.5px solid transparent;
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-family: var(--font-body); font-size: 15px;
+  color: var(--on-surface);
+  outline: none;
+  transition: border-color 0.1s ease, background 0.1s ease;
+}
+.field input { height: 46px; }
+.field input:focus, .field textarea:focus {
+  border-color: var(--red);
+  background: var(--white);
+}
+.field input::placeholder, .field textarea::placeholder { color: #9ca3af; }
+.field textarea { resize: none; min-height: 84px; }
+
+/* Quick chips (теги) */
+.quick { display: flex; flex-wrap: wrap; gap: 6px; }
+.quick .chip { cursor: pointer; border: none; }
+.quick .chip:active { background: var(--red); color: #fff; }
+
+/* Primary CTA */
+.primary-btn {
+  width: 100%; height: 52px;
+  border: none; border-radius: 8px;
+  background: var(--red); color: #fff;
+  font-family: var(--font-head); font-size: 17px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.05em;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  box-shadow: var(--shadow);
+  transition: background 0.1s ease, transform 0.08s ease;
+}
+.primary-btn:active { background: var(--red-dark); transform: scale(0.98); }
+.primary-btn:disabled { opacity: 0.6; cursor: default; }
+
+.note { font-size: 12px; color: var(--secondary); text-align: center; padding: 0 8px; }
+
+/* Toast / ошибка */
+.toast {
+  display: none;
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-size: 13px;
+  background: #ffdad6; color: #93000a;
+}
+.toast.is-visible { display: block; }
+
+/* Success overlay */
+.overlay {
+  position: fixed; inset: 0; z-index: 50;
+  background: rgba(46, 49, 50, 0.6);
+  backdrop-filter: blur(3px);
+  display: none; align-items: center; justify-content: center;
+  padding: 16px;
+}
+.overlay.is-visible { display: flex; }
+.modal {
+  width: 100%; max-width: 360px;
+  background: var(--white);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex; flex-direction: column; align-items: center; text-align: center; gap: 12px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+}
+.modal__icon {
+  width: 56px; height: 56px; border-radius: 50%;
+  background: var(--red); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+}
+.modal__icon svg { width: 30px; height: 30px; }
+.modal__title { font-family: var(--font-head); font-size: 22px; font-weight: 700; text-transform: uppercase; }
+.modal__text { font-size: 14px; color: var(--secondary); }
+
+/* Баннер "вне Telegram" */
+.notice {
+  display: none;
+  background: #fff7e6; color: #8a5a00;
+  border: 1px solid #f0d9a0;
+  border-radius: 8px; padding: 10px 12px; font-size: 12px;
+}
+.notice.is-visible { display: block; }
+
+/* Команда LizardTrail (инфо-блок на Экран 0) */
+.team-info {
+  background: var(--white); border: 1px solid var(--border); border-radius: 12px;
+  padding: 14px; box-shadow: var(--shadow);
+  display: flex; flex-direction: column; gap: 8px;
+}
+.team-info__head { display: flex; align-items: center; gap: 8px; }
+.team-info__head .title { font-family: var(--font-head); font-size: 16px; font-weight: 700; text-transform: uppercase; color: var(--ink); flex: 1; }
+.team-info__head .info-tag { font-size: 10px; font-weight: 700; text-transform: uppercase; background: #edeef0; color: var(--secondary); padding: 2px 8px; border-radius: 4px; }
+.team-info p { font-size: 13px; color: var(--secondary); line-height: 1.5; }
+
+/* Тёмный баннер (сервис) */
+.dark-banner {
+  background: #2e3132; color: #f0f1f3; border-radius: 12px;
+  padding: 14px; display: flex; align-items: center; justify-content: space-between; gap: 10px;
+}
+.dark-banner .title { font-family: var(--font-head); font-size: 16px; font-weight: 700; text-transform: uppercase; }
+.dark-banner .sub { font-size: 11px; color: #d9dadc; }
+
+/* Строка-подсказка с бейджем */
+.inline-note {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--surface-low); border-radius: 8px; padding: 8px 12px;
+  font-size: 12px; color: var(--secondary);
+}
+.inline-note .badge {
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  background: #ffdad6; color: #410003; padding: 2px 8px; border-radius: 4px; white-space: nowrap;
+}
+.required-mark { color: var(--red); }

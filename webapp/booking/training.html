@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>LizardTrail — Запись на маршрут / тренировку</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../static/css/style.css" />
+</head>
+<body>
+  <div class="screen">
+
+    <!-- App bar -->
+    <header class="appbar">
+      <button class="icon-btn" type="button" onclick="history.back()" aria-label="Назад">←</button>
+      <span class="appbar__title">Маршрут / Тренировка</span>
+    </header>
+
+    <div class="intro card">
+      <div class="intro__title">
+        <h1>Запись на маршрут / тренировку</h1>
+      </div>
+      <p>База LizardTrail • Горные &amp; Лесные треки</p>
+    </div>
+
+    <form class="form" id="form" novalidate>
+      <!-- Блок 1: Количество участников -->
+      <div class="card block">
+        <div class="block__label">
+          <span>Сколько человек поедет?</span>
+          <span class="hint">Эндуро-тур</span>
+        </div>
+        <div class="counter">
+          <button class="counter__btn" type="button" id="dec" aria-label="Уменьшить">−</button>
+          <div class="counter__value">
+            <span class="counter__num" id="count">1</span>
+            <span class="counter__label" id="count-label">райдер</span>
+          </div>
+          <button class="counter__btn" type="button" id="inc" aria-label="Увеличить">+</button>
+        </div>
+        <div class="inline-note">
+          <span>Оптимальная группа: до 6 райдеров на 1 сертифицированного гида</span>
+        </div>
+      </div>
+
+      <!-- Блок 2: Уровень катания -->
+      <div class="card block">
+        <div class="block__label"><span>Укажите ваш уровень:</span><span class="hint">Сложность</span></div>
+        <label class="radio-card" data-level>
+          <input type="radio" name="level" value="Новичок (С нуля)" />
+          <span class="radio-card__indicator"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>
+          <span>
+            <span class="radio-card__title">Новичок (С нуля)</span>
+            <span class="radio-card__desc">Ни разу не сидел на эндуро. Обучим базе, стойке, балансу и сцеплению.</span>
+          </span>
+        </label>
+        <label class="radio-card is-active" data-level>
+          <input type="radio" name="level" value="Есть опыт" checked />
+          <span class="radio-card__indicator"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>
+          <span>
+            <span class="radio-card__title">Есть опыт</span>
+            <span class="radio-card__desc">Уверенно на питбайке или дорожном мото. Готовы к грунту, грязи и оврагам.</span>
+          </span>
+        </label>
+        <label class="radio-card" data-level>
+          <input type="radio" name="level" value="Уверенный / PRO" />
+          <span class="radio-card__indicator"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>
+          <span>
+            <span class="radio-card__title">Уверенный / PRO</span>
+            <span class="radio-card__desc">Бревна, крутые подъемы, каменные русла, хард-эндуро темп без остановок.</span>
+          </span>
+        </label>
+      </div>
+
+      <!-- Блок 3: Аренда техники -->
+      <div class="card block">
+        <div class="block__label"><span>Нужна ли аренда мотоцикла?</span></div>
+        <div class="segmented">
+          <button class="seg is-active" type="button" id="rent-yes">Да, аренда</button>
+          <button class="seg" type="button" id="rent-no">Свой байк</button>
+        </div>
+        <div class="inline-note">
+          <span class="badge">Экипировка включена</span>
+          <span>Всегда включена • Бесплатно</span>
+        </div>
+      </div>
+
+      <!-- Блок 4: Контакты -->
+      <div class="card block">
+        <div class="block__label">
+          <span>Контактные данные</span>
+          <span class="hint">Telegram подключён</span>
+        </div>
+        <div class="field">
+          <span class="field__label">Ваше имя <span class="required-mark">* Обязательно</span></span>
+          <input id="name" type="text" placeholder="Иван" autocomplete="name" />
+        </div>
+        <div class="field">
+          <span class="field__label">Номер телефона <span class="required-mark">* Обязательно</span></span>
+          <input id="phone" type="tel" placeholder="+375 (29) 000-00-00" autocomplete="tel" />
+        </div>
+      </div>
+
+      <!-- Блок 5: Пожелания к дате и времени -->
+      <div class="card block">
+        <div class="block__label"><span>Пожелания к дате и времени</span></div>
+        <div class="grid-2">
+          <div class="field">
+            <span class="field__label">Дата</span>
+            <input id="desired-date" type="date" />
+          </div>
+          <div class="field">
+            <span class="field__label">Время</span>
+            <input id="desired-time" type="time" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Блок 6: Комментарий -->
+      <div class="card block">
+        <div class="block__label"><span>Ваш комментарий</span></div>
+        <div class="field">
+          <textarea id="comment" rows="3" placeholder="Планируем приехать в субботу утром, нужны 2 шлема размера M и L..."></textarea>
+        </div>
+      </div>
+
+      <div class="toast" id="error"></div>
+
+      <button class="primary-btn" type="submit" id="submit">Отправить заявку</button>
+      <p class="note">Менеджер LizardTrail свяжется с вами в Telegram для бронирования времени, техники и деталей трассы.</p>
+    </form>
+
+  </div>
+
+  <!-- Success overlay -->
+  <div class="overlay" id="success-overlay">
+    <div class="modal">
+      <div class="modal__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></div>
+      <div class="modal__title">Заявка принята!</div>
+      <div class="modal__text">Менеджер свяжется с вами в Telegram для подтверждения времени и техники.</div>
+      <button class="primary-btn" type="button" id="close-overlay">Понятно</button>
+    </div>
+  </div>
+
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script src="../static/js/config.js"></script>
+  <script src="../static/js/telegram.js"></script>
+  <script src="../static/js/training.js"></script>
+</body>
+</html>

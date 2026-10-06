@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>LizardTrail — Выбор услуги</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="static/css/style.css" />
+</head>
+<body>
+  <div class="screen">
+
+    <!-- Header -->
+    <header class="header">
+      <div class="logo">LizardTrail</div>
+      <div class="badge"><span class="dot"></span> База открыта с 09:00 до 21:00</div>
+      <p class="subtitle">Выберите, что вас интересует:</p>
+    </header>
+
+    <!-- Баннер, если открыто вне Telegram -->
+    <div class="notice" id="notice">
+      Открыто вне Telegram — заявки не отправятся. Откройте приложение через бота.
+    </div>
+
+    <!-- Инфо от команды -->
+    <section class="team-info">
+      <div class="team-info__head">
+        <span class="title">Команда LizardTrail</span>
+        <span class="info-tag">Инфо</span>
+      </div>
+      <p>
+        Друзья, на базе LizardTrail мы часто находимся на выездах, лесных треках или
+        тренировках, поэтому не всегда можем оперативно ответить на звонок.
+      </p>
+      <p>
+        Пожалуйста, выберите нужную категорию ниже и оставьте онлайн-заявку на маршрут,
+        тренировку или сервис — мы сразу увидим её и свяжемся с вами для подтверждения!
+      </p>
+    </section>
+
+    <!-- Карточки выбора -->
+    <main class="cards">
+      <a class="card" href="booking/training.html" id="card-training">
+        <div class="card__top">
+          <div class="card__body">
+            <span class="card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="5.5" cy="17.5" r="3.5" />
+                <circle cx="18.5" cy="17.5" r="3.5" />
+                <path d="M15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
+                <path d="M12 17.5V14l-3-3 4-3 2 3h2" />
+              </svg>
+            </span>
+            <div>
+              <div class="card__eyebrow">Маршруты</div>
+              <div class="card__title">Прокат и Тренировки</div>
+              <div class="card__text">Запись на эндуро-маршруты и обучение</div>
+            </div>
+          </div>
+          <span class="card__arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6" /></svg>
+          </span>
+        </div>
+        <div class="card__tags">
+          <span class="chip">Гиды</span>
+          <span class="chip">Экипировка включена</span>
+          <span class="chip">От новичков до PRO</span>
+        </div>
+      </a>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="contact-box">
+        <div class="contact-row">
+          <span class="value">г. Минск, ГСК «Овощник»</span>
+          <span class="label">База</span>
+        </div>
+        <div class="contact-row">
+          <a class="value" href="tel:+3752900000000">+375 (29) 000-00-00</a>
+          <span class="label">Звонок</span>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script src="static/js/config.js"></script>
+  <script src="static/js/telegram.js"></script>
+  <script>
+    LT.init();
+
+    // Gateway: если менеджер — сразу в админку.
+    if (LT.isInTelegram() && LT.initData()) {
+      LT.checkRole().then((me) => {
+        if (me && me.is_manager) location.replace('admin.html');
+      });
+    } else if (!LT.isInTelegram()) {
+      document.getElementById('notice').classList.add('is-visible');
+    }
+  </script>
+</body>
+</html>

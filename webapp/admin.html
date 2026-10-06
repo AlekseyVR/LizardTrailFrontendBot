@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>LizardTrail — Админ-панель</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="static/css/style.css" />
+  <link rel="stylesheet" href="static/css/admin.css" />
+</head>
+<body>
+  <div class="admin-shell">
+
+    <!-- ===== Вкладка «Календарь» ===== -->
+    <div id="tab-calendar">
+      <div class="toolbar">
+        <div class="toolbar__row">
+          <div class="toolbar__controls">
+            <button class="btn btn--square" id="prev" type="button" aria-label="Назад">‹</button>
+            <button class="btn btn--square" id="next" type="button" aria-label="Вперёд">›</button>
+          </div>
+          <span class="toolbar__range" id="range">…</span>
+          <div class="toolbar__controls">
+            <button class="btn" id="today" type="button">Сегодня</button>
+          </div>
+        </div>
+        <div class="toolbar__row">
+          <div class="view-switch" id="view-switch">
+            <button type="button" data-mode="1">1д</button>
+            <button type="button" data-mode="3">3 дня</button>
+            <button type="button" data-mode="7" class="is-active">7д</button>
+          </div>
+          <span class="muted" id="stats">—</span>
+        </div>
+      </div>
+
+      <div id="cal-head" class="cal__head"></div>
+      <div id="cal-body" class="cal__body"></div>
+    </div>
+
+    <!-- ===== Вкладка «Клиенты» ===== -->
+    <div id="tab-clients" style="display:none">
+      <div class="sub-tabs">
+        <button class="sub-tab is-active" type="button" data-sub="clients">Клиенты</button>
+        <button class="sub-tab" type="button" data-sub="service">Сервис (ремонт)</button>
+      </div>
+
+      <!-- Книга клиентов -->
+      <div id="view-clients">
+        <div class="clients-head">
+          <input id="client-search" type="text" placeholder="Поиск по имени или телефону" />
+          <button class="fab-add" id="add-client" type="button" aria-label="Добавить клиента">+</button>
+        </div>
+        <div id="clients-list"></div>
+      </div>
+
+      <!-- Сервис (ремонт) — канбан -->
+      <div id="view-service" style="display:none">
+        <div class="svc-head">
+          <div>
+            <h1>Сервис</h1>
+            <div class="sub">Ремонт и ТО мотопарка</div>
+          </div>
+          <div class="svc-head__actions">
+            <span class="sub">Свайп колонок →</span>
+            <button class="fab-add" id="add-service-request" type="button" aria-label="Добавить заявку">+</button>
+          </div>
+        </div>
+        <div class="board" id="board"></div>
+      </div>
+    </div>
+
+    <!-- ===== Вкладка «Настройки» ===== -->
+    <div id="tab-settings" style="display:none">
+      <div class="settings">
+        <div>
+          <div class="settings__title">Настройки</div>
+          <div class="settings__sub">Управление тарифами и правами администраторов</div>
+        </div>
+
+        <div class="settings__tabs">
+          <button class="settings__tab is-active" type="button" data-subtab="services">Услуги</button>
+          <button class="settings__tab" type="button" data-subtab="staff">Сотрудники</button>
+          <button class="settings__tab" type="button" data-subtab="notifications">Уведомления</button>
+        </div>
+
+        <!-- Услуги -->
+        <div id="view-services">
+          <button class="btn" id="add-service" type="button" style="width:100%">+ Добавить услугу</button>
+          <div id="services-list" style="display:flex;flex-direction:column;gap:10px"></div>
+        </div>
+
+        <!-- Сотрудники (owner only) -->
+        <div id="view-staff" style="display:none">
+          <div class="sec">
+            <div class="sec__title"><span>Добавить доступ</span></div>
+            <div class="field">
+              <span class="field__label">Telegram ID</span>
+              <input id="staff-id" type="text" inputmode="numeric" placeholder="Например, 184920412" />
+            </div>
+            <div class="field">
+              <span class="field__label">Имя сотрудника</span>
+              <input id="staff-name" type="text" placeholder="Имя" />
+            </div>
+            <div class="field">
+              <span class="field__label">Роль</span>
+              <select id="staff-role">
+                <option value="Manager">Manager</option>
+                <option value="Owner">Owner</option>
+              </select>
+            </div>
+            <button class="primary-btn" id="add-staff" type="button">Выдать доступ</button>
+          </div>
+          <div id="staff-list" style="display:flex;flex-direction:column;gap:10px"></div>
+        </div>
+
+        <!-- Уведомления (owner only) -->
+        <div id="view-notifications" style="display:none">
+          <div class="sec">
+            <div class="sec__title"><span>Добавить получателя</span></div>
+            <div class="field">
+              <span class="field__label">Telegram ID</span>
+              <input id="notif-id" type="text" inputmode="numeric" placeholder="Например, 184920412" />
+            </div>
+            <div class="field">
+              <span class="field__label">Имя</span>
+              <input id="notif-name" type="text" placeholder="Имя" />
+            </div>
+            <button class="primary-btn" id="add-notif" type="button">Добавить</button>
+          </div>
+          <div class="muted" style="font-size:12px">Если список пуст — уведомления идут всем менеджерам.</div>
+          <div id="notifications-list" style="display:flex;flex-direction:column;gap:10px"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FAB (только календарь) -->
+  <button class="fab" id="fab" type="button" aria-label="Добавить">+</button>
+
+  <!-- Bottom Tab Bar -->
+  <nav class="tabbar">
+    <div class="tabbar__inner">
+      <button class="tab is-active" type="button" data-tab="calendar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        <span>Календарь</span>
+      </button>
+      <button class="tab" type="button" data-tab="clients">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        <span>Клиенты</span>
+      </button>
+      <button class="tab" type="button" data-tab="settings">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></svg>
+        <span>Настройки</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ===== Sheet 1: запись клиента (календарь) ===== -->
+  <div class="sheet-overlay" id="sheet">
+    <div class="sheet">
+      <div class="sheet__handle"><span></span></div>
+      <div class="sheet__header">
+        <button class="btn btn--ghost btn--square" id="sheet-close" type="button">←</button>
+        <div class="sheet__title">
+          <span class="id" id="sheet-id">Новая запись</span>
+          <h2>Запись клиента</h2>
+        </div>
+        <button class="btn btn--ghost btn--square danger" id="sheet-delete" type="button" style="display:none">🗑</button>
+      </div>
+
+      <div class="sheet__scroll" id="sheet-scroll">
+        <div class="sec">
+          <div class="sec__title"><span>Дата и время</span></div>
+          <div class="grid-3">
+            <div class="field"><span class="field__label">Дата</span><input id="f-date" type="date" /></div>
+            <div class="field"><span class="field__label">Старт <span class="required-mark">*</span></span><input id="f-start" type="time" /></div>
+            <div class="field"><span class="field__label">Финиш</span><input id="f-end" type="time" /></div>
+          </div>
+          <div class="muted" id="f-end-hint" style="display:none">Финиш рассчитан по длительности услуги</div>
+        </div>
+
+        <div class="sec">
+          <div class="sec__title"><span>Основной заказчик</span></div>
+          <button class="btn pick-clients-btn" id="pick-clients" type="button">Выбрать клиента</button>
+          <div class="field"><span class="field__label">Имя клиента</span><input id="f-name" type="text" placeholder="Иван" /></div>
+          <div class="field"><span class="field__label">Номер телефона</span><input id="f-phone" type="tel" placeholder="+375 (29) 000-00-00" /></div>
+          <div class="field">
+            <span class="field__label">Количество человек</span>
+            <div class="counter">
+              <button class="counter__btn" type="button" id="f-count-dec" aria-label="Уменьшить">−</button>
+              <div class="counter__value"><span class="counter__num" id="f-count">1</span></div>
+              <button class="counter__btn" type="button" id="f-count-inc" aria-label="Увеличить">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="sec">
+          <div class="sec__title"><span>Услуга и оплата</span></div>
+          <div class="field">
+            <span class="field__label">Услуга</span>
+            <select id="f-service"><option value="">— Выберите услугу —</option></select>
+          </div>
+          <div class="field" id="f-service-custom-wrap" style="display:none">
+            <span class="field__label">Описание услуги <span class="required-mark">* Обязательно</span></span>
+            <input id="f-service-custom" type="text" placeholder="Например, корпоратив 5 заездов" />
+          </div>
+          <div class="field" id="f-color-wrap" style="display:none">
+            <span class="field__label">Цвет события</span>
+            <div class="color-picker" id="f-color">
+              <button type="button" class="swatch is-active" data-color="#D81324" data-label="Внимание (корп)"><span style="background:#D81324"></span></button>
+              <button type="button" class="swatch" data-color="#FF8C00" data-label="Поля + Гена"><span style="background:#FF8C00"></span></button>
+              <button type="button" class="swatch" data-color="#FFB3AD" data-label="Поля"><span style="background:#FFB3AD"></span></button>
+            </div>
+            <span class="muted" id="f-color-label">Внимание (корп)</span>
+          </div>
+          <div class="field"><span class="field__label">Итого к оплате</span><input id="f-cost" type="text" inputmode="numeric" placeholder="0" /></div>
+        </div>
+
+        <div class="sec">
+          <div class="sec__title">
+            <span>Участники группы</span>
+            <button class="btn" id="add-participant" type="button">+ Добавить</button>
+          </div>
+          <div id="participants-list"></div>
+        </div>
+
+        <div class="sec">
+          <div class="sec__title"><span>Дополнительно</span></div>
+          <div class="field">
+            <span class="field__label">Комментарий администратора <span class="required-mark" id="f-comment-req" style="display:none">* Обязательно</span></span>
+            <textarea id="f-comment" rows="2" placeholder="Экипировка, детали..."></textarea>
+          </div>
+          <div class="switch-row">
+            <div><div class="txt">Предоплата</div><div class="sub">Если включена — комментарий обязателен</div></div>
+            <label class="switch"><input type="checkbox" id="f-prepaid" /><span class="track"></span><span class="knob"></span></label>
+          </div>
+          <div id="f-status-wrap" style="display:none">
+            <div class="switch-row">
+              <div><div class="txt danger">Отменить бронирование</div><div class="sub">Перевести слот в архив</div></div>
+              <label class="switch"><input type="checkbox" id="f-cancelled" /><span class="track"></span><span class="knob"></span></label>
+            </div>
+          </div>
+        </div>
+
+        <div class="toast" id="sheet-error"></div>
+      </div>
+
+      <div class="sheet__footer">
+        <button class="primary-btn" id="sheet-save" type="button">Сохранить запись</button>
+        <button class="btn btn--ghost" id="sheet-cancel" type="button" style="width:100%">Закрыть без изменений</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Sheet 2: сервисная заявка (канбан) ===== -->
+  <div class="sheet-overlay" id="service-sheet">
+    <div class="sheet">
+      <div class="sheet__handle"><span></span></div>
+      <div class="sheet__header">
+        <button class="btn btn--ghost btn--square" id="service-sheet-close" type="button">←</button>
+        <div class="sheet__title"><span class="id" id="service-sheet-id">Заявка</span><h2>Сервисная заявка</h2></div>
+        <span style="width:34px"></span>
+      </div>
+      <div class="sheet__scroll">
+        <div class="sec">
+          <div class="sec__title"><span>Техника</span></div>
+          <div class="field"><span class="field__label">Марка и модель</span><input id="s-bike" type="text" placeholder="KTM EXC 300" /></div>
+          <div class="field"><span class="field__label">Суть проблемы</span><textarea id="s-problem" rows="3" placeholder="Опишите проблему"></textarea></div>
+        </div>
+        <div class="sec">
+          <div class="sec__title"><span>Клиент</span></div>
+          <div class="grid-2">
+            <div class="field"><span class="field__label">Имя</span><input id="s-name" type="text" /></div>
+            <div class="field"><span class="field__label">Телефон</span><input id="s-phone" type="tel" /></div>
+          </div>
+          <div class="field"><span class="field__label">Желаемая дата</span><input id="s-desired" type="date" /></div>
+        </div>
+        <div class="sec">
+          <div class="sec__title"><span>Статус и оплата</span></div>
+          <div class="field">
+            <span class="field__label">Статус ремонта</span>
+            <select id="s-status">
+              <option>Новые</option>
+              <option>Ждет запчасти</option>
+              <option>В работе</option>
+              <option>Готов к выдаче</option>
+              <option>Завершено</option>
+            </select>
+          </div>
+          <div class="field"><span class="field__label">Итоговая стоимость</span><input id="s-cost" type="text" inputmode="numeric" placeholder="0" /></div>
+          <div class="field"><span class="field__label">Комментарий механика</span><textarea id="s-mech" rows="2" placeholder="Запчасти, работы..."></textarea></div>
+        </div>
+        <div class="toast" id="service-sheet-error"></div>
+      </div>
+      <div class="sheet__footer">
+        <button class="primary-btn" id="service-sheet-save" type="button">Сохранить</button>
+        <button class="btn btn--ghost" id="service-sheet-cancel" type="button" style="width:100%">Закрыть</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Sheet 3: услуга (настройки) ===== -->
+  <div class="sheet-overlay" id="service-form-sheet">
+    <div class="sheet">
+      <div class="sheet__handle"><span></span></div>
+      <div class="sheet__header">
+        <button class="btn btn--ghost btn--square" id="service-form-close" type="button">←</button>
+        <div class="sheet__title"><span class="id" id="service-form-id">Новая услуга</span><h2>Услуга</h2></div>
+        <span style="width:34px"></span>
+      </div>
+      <div class="sheet__scroll">
+        <div class="sec">
+          <div class="grid-2">
+            <div class="field"><span class="field__label">Категория</span><input id="c-category" type="text" placeholder="Тур / Прокат / Сервис" /></div>
+            <div class="field"><span class="field__label">Название</span><input id="c-name" type="text" placeholder="Эндуро-тур" /></div>
+          </div>
+          <div class="grid-2">
+            <div class="field"><span class="field__label">Длительность (мин)</span><input id="c-duration" type="text" inputmode="numeric" placeholder="120" /></div>
+            <div class="field"><span class="field__label">Базовая цена</span><input id="c-price" type="text" inputmode="numeric" placeholder="5000" /></div>
+          </div>
+          <div class="field"><span class="field__label">Цвет</span><input id="c-color" type="color" value="#D81324" /></div>
+        </div>
+        <div class="toast" id="service-form-error"></div>
+      </div>
+      <div class="sheet__footer">
+        <button class="primary-btn" id="service-form-save" type="button">Сохранить услугу</button>
+        <button class="btn btn--ghost" id="service-form-cancel" type="button" style="width:100%">Закрыть</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Sheet 4: клиент (книга клиентов) ===== -->
+  <div class="sheet-overlay" id="client-sheet">
+    <div class="sheet">
+      <div class="sheet__handle"><span></span></div>
+      <div class="sheet__header">
+        <button class="btn btn--ghost btn--square" id="client-sheet-close" type="button">←</button>
+        <div class="sheet__title"><span class="id" id="client-sheet-id">Клиент</span><h2>Карточка клиента</h2></div>
+        <button class="btn btn--ghost btn--square danger" id="client-sheet-delete" type="button" style="display:none">🗑</button>
+      </div>
+      <div class="sheet__scroll">
+        <div class="sec">
+          <div class="sec__title"><span>Данные клиента</span></div>
+          <div class="field"><span class="field__label">Имя</span><input id="cl-name" type="text" placeholder="Иван" /></div>
+          <div class="field"><span class="field__label">Телефон</span><input id="cl-phone" type="tel" placeholder="+375 (29) 000-00-00" /></div>
+          <div class="field"><span class="field__label">Username</span><input id="cl-username" type="text" placeholder="@username" /></div>
+          <div class="field"><span class="field__label">Описание</span><textarea id="cl-description" rows="2" placeholder="Предпочтения, комментарий..."></textarea></div>
+          <div class="switch-row">
+            <div><div class="txt danger">Заблокирован (is_black_list)</div><div class="sub">Запрет на создание событий</div></div>
+            <label class="switch"><input type="checkbox" id="cl-blacklisted" /><span class="track"></span><span class="knob"></span></label>
+          </div>
+        </div>
+        <div class="sec" id="cl-history-sec" style="display:none">
+          <div class="sec__title"><span>История маршрутов</span></div>
+          <div id="cl-history"></div>
+        </div>
+        <div class="toast" id="client-sheet-error"></div>
+      </div>
+      <div class="sheet__footer">
+        <button class="primary-btn" id="client-sheet-save" type="button">Сохранить</button>
+        <button class="btn btn--ghost" id="client-sheet-cancel" type="button" style="width:100%">Закрыть</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Полноэкранный попап: выбор клиентов ===== -->
+  <div class="sheet-overlay picker-overlay" id="client-picker">
+    <div class="sheet picker">
+      <div class="sheet__handle"><span></span></div>
+      <div class="sheet__header">
+        <button class="btn btn--ghost btn--square" id="picker-close" type="button">←</button>
+        <div class="sheet__title"><h2>Выбрать клиентов</h2></div>
+        <button class="btn picker-done" id="picker-done" type="button">Готово</button>
+      </div>
+      <div class="picker__search">
+        <input id="picker-search" type="text" placeholder="Поиск по имени или телефону" />
+      </div>
+      <div class="sheet__scroll">
+        <div id="picker-list" class="clients-check picker-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Попап: клиент заблокирован ===== -->
+  <div class="overlay" id="banned-popup">
+    <div class="modal">
+      <div class="modal__icon" style="background:#111827">🚫</div>
+      <div class="modal__title">Клиент заблокирован</div>
+      <div class="modal__text">Нельзя создать событие с человеком, у которого есть бан.</div>
+      <div class="banned-info" id="banned-info"></div>
+      <button class="primary-btn" id="banned-close" type="button">Понятно</button>
+    </div>
+  </div>
+
+  <!-- ===== Попап: клиент не найден в Telegram (Viber/WhatsApp) ===== -->
+  <div class="overlay" id="manual-notify-popup">
+    <div class="modal">
+      <div class="modal__icon" style="background:#111827">💬</div>
+      <div class="modal__title">Клиент не найден в Telegram</div>
+      <div class="modal__text">Подтверждение записи сохранено в буфер обмена. Отправьте его клиенту вручную через мессенджер.</div>
+      <div class="manual-notify__actions">
+        <button class="btn-viber" id="open-viber" type="button">Отправить в Viber</button>
+        <button class="btn-whatsapp" id="open-whatsapp" type="button">Отправить в WhatsApp</button>
+        <button class="btn-outline" id="manual-notify-close" type="button">Закрыть / Отправил</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Тосты -->
+  <div class="saved-toast" id="saved-toast">Сохранено</div>
+
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script src="static/js/config.js"></script>
+  <script src="static/js/telegram.js"></script>
+  <script src="static/js/admin.js"></script>
+</body>
+</html>

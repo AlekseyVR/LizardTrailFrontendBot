@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>LizardTrail — Заявка на сервис</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../static/css/style.css" />
+</head>
+<body>
+  <div class="screen">
+
+    <!-- App bar -->
+    <header class="appbar">
+      <button class="icon-btn" type="button" onclick="history.back()" aria-label="Назад">←</button>
+      <span class="appbar__title">Заявка на сервис</span>
+    </header>
+
+    <div class="intro card">
+      <div class="intro__title">
+        <h1>Заявка на сервис</h1>
+      </div>
+      <p>Техническое обслуживание и Ремонт</p>
+    </div>
+
+    <form class="form" id="form" novalidate>
+      <!-- Мотоцикл -->
+      <div class="card block">
+        <div class="block__label">
+          <span>Марка и модель мотоцикла</span>
+          <span class="hint">* Обязательно</span>
+        </div>
+        <div class="field">
+          <input id="bike" type="text" placeholder="Например, KTM EXC 300" />
+        </div>
+      </div>
+
+      <!-- Описание заявки -->
+      <div class="card block">
+        <div class="block__label"><span>Описание заявки</span></div>
+        <div class="field">
+          <textarea id="problem" rows="3" placeholder="Опишите, что нужно починить или какое ТО требуется провести..."></textarea>
+        </div>
+        <div class="quick">
+          <button class="chip" type="button" data-issue="Плановое ТО (масла, фильтры)">Плановое ТО</button>
+        </div>
+      </div>
+
+      <!-- Дата -->
+      <div class="card block">
+        <div class="block__label"><span>Желаемая дата сдачи</span></div>
+        <div class="field">
+          <input id="desired-date" type="date" />
+        </div>
+      </div>
+
+      <!-- Телефон -->
+      <div class="card block">
+        <div class="block__label"><span>Контактные данные</span></div>
+        <div class="field">
+          <span class="field__label">Ваш телефон <span class="required-mark">* Обязательно</span></span>
+          <input id="phone" type="tel" placeholder="+375 (29) 000-00-00" autocomplete="tel" />
+        </div>
+        <div class="inline-note">
+          <span>Привяжем заявку к вашему Telegram-профилю для трекинга готовности.</span>
+        </div>
+      </div>
+
+      <!-- Тёмный баннер -->
+      <div class="dark-banner">
+        <div>
+          <div class="title">Сервис LizardTrail</div>
+          <div class="sub">Ремонт любой сложности</div>
+        </div>
+      </div>
+
+      <div class="toast" id="error"></div>
+
+      <button class="primary-btn" type="submit" id="submit">Отправить заявку</button>
+      <p class="note">Механик LizardTrail свяжется с вами в Telegram для подтверждения времени заезда.</p>
+    </form>
+
+  </div>
+
+  <!-- Success overlay -->
+  <div class="overlay" id="success-overlay">
+    <div class="modal">
+      <div class="modal__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></div>
+      <div class="modal__title">Заявка принята!</div>
+      <div class="modal__text">Механик LizardTrail свяжется с вами в Telegram для подтверждения времени заезда.</div>
+      <button class="primary-btn" type="button" id="close-overlay">Понятно</button>
+    </div>
+  </div>
+
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script src="../static/js/config.js"></script>
+  <script src="../static/js/telegram.js"></script>
+  <script src="../static/js/service.js"></script>
+</body>
+</html>
