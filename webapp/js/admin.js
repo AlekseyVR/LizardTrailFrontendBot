@@ -173,6 +173,7 @@
     renderServices();
     if (me.is_owner) renderStaff();
     setTimeout(scrollToFirstEvent, 60); // фокус на первой записи при входе
+    LT.hideLoader();
   }
 
   async function loadData() {

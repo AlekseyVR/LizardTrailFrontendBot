@@ -433,3 +433,17 @@ button { font-family: inherit; cursor: pointer; }
   background: #ffdad6; color: #410003; padding: 2px 8px; border-radius: 4px; white-space: nowrap;
 }
 .required-mark { color: var(--red); }
+
+/* ---------- Loader (заставка при загрузке Mini App) ---------- */
+.lt-loader {
+  position: fixed; inset: 0; z-index: 999;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 26px;
+  background: var(--surface);
+  transition: opacity 0.35s ease, visibility 0.35s ease;
+}
+.lt-loader.is-hiding { opacity: 0; visibility: hidden; }
+.lt-loader__logo { width: 234px; max-width: 60vw; height: auto; display: block; }
+.lt-loader__wheel { width: 54px; height: 54px; display: block; animation: lt-wheel-spin 0.85s linear infinite; }
+@keyframes lt-wheel-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .lt-loader__wheel { animation-duration: 2.6s; } }

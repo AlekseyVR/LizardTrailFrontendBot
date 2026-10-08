@@ -88,5 +88,24 @@ window.LT = (function () {
     }
   }
 
-  return { tg, init, isInTelegram, initData, haptic, api, checkRole, close, attachPhoneMask, phoneValid, formatPhone, openExternal, copyToClipboard };
+  // Заставка загрузки: прячем, когда приложение готово.
+  // Держим на экране минимум MIN_MS, чтобы не было «мигания».
+  const LOADER_MIN_MS = 420;
+  const _t0 = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now();
+  const _now = () => ((typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now());
+
+  function hideLoader() {
+    const el = document.getElementById('lt-loader');
+    if (!el || el.dataset.hidden) return;
+    el.dataset.hidden = '1';
+    const wait = Math.max(0, LOADER_MIN_MS - (_now() - _t0));
+    setTimeout(() => {
+      el.classList.add('is-hiding');
+      setTimeout(() => { if (el.parentNode) el.parentNode.removeChild(el); }, 400);
+    }, wait);
+  }
+  // Страховка: если что-то пошло не так — прячем через 8 секунд.
+  setTimeout(hideLoader, 8000);
+
+  return { tg, init, isInTelegram, initData, haptic, api, checkRole, close, attachPhoneMask, phoneValid, formatPhone, openExternal, copyToClipboard, hideLoader };
 })();

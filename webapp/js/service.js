@@ -83,4 +83,6 @@
     overlay.classList.remove('is-visible');
     LT.close();
   });
+
+  LT.hideLoader();
 })();

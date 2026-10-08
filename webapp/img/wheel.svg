@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- покрышка -->
+  <circle cx="50" cy="50" r="47" fill="none" stroke="#D81324" stroke-width="5"/>
+  <!-- обод -->
+  <circle cx="50" cy="50" r="35" fill="none" stroke="#D81324" stroke-width="2.5" opacity="0.5"/>
+  <!-- спицы -->
+  <g stroke="#D81324" stroke-width="2.2" stroke-linecap="round">
+    <line x1="50" y1="43" x2="50" y2="15"/>
+    <line x1="50" y1="43" x2="50" y2="15" transform="rotate(45 50 50)"/>
+    <line x1="50" y1="43" x2="50" y2="15" transform="rotate(90 50 50)"/>
+    <line x1="50" y1="43" x2="50" y2="15" transform="rotate(135 50 50)"/>
+    <line x1="50" y1="43" x2="50" y2="15" transform="rotate(180 50 50)"/>
+    <line x1="50" y1="43" x2="50" y2="15" transform="rotate(225 50 50)"/>
+    <line x1="50" y1="43" x2="50" y2="15" transform="rotate(270 50 50)"/>
+    <line x1="50" y1="43" x2="50" y2="15" transform="rotate(315 50 50)"/>
+  </g>
+  <!-- ступица -->
+  <circle cx="50" cy="50" r="7" fill="#D81324"/>
+</svg>

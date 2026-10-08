@@ -11,6 +11,12 @@
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
+
+  <!-- Заставка при загрузке Mini App -->
+  <div class="lt-loader" id="lt-loader">
+    <img class="lt-loader__logo" src="img/logo.webp" alt="LizardTrail" />
+    <img class="lt-loader__wheel" src="img/wheel.svg" alt="" />
+  </div>
   <div class="screen">
 
     <!-- Header -->
@@ -94,9 +100,11 @@
     if (LT.isInTelegram() && LT.initData()) {
       LT.checkRole().then((me) => {
         if (me && me.is_manager) location.replace('admin.html');
+        else LT.hideLoader();
       });
-    } else if (!LT.isInTelegram()) {
-      document.getElementById('notice').classList.add('is-visible');
+    } else {
+      if (!LT.isInTelegram()) document.getElementById('notice').classList.add('is-visible');
+      LT.hideLoader();
     }
 
     // Адрес базы — открываем во внешнем браузере (Yandex Maps).
