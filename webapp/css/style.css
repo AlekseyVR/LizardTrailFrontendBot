@@ -197,8 +197,9 @@ button { font-family: inherit; cursor: pointer; }
   font-size: 13px;
 }
 .contact-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-.contact-row .label { font-size: 10px; font-weight: 700; text-transform: uppercase; color: var(--secondary); }
+.contact-row .label { font-size: 10px; font-weight: 700; text-transform: uppercase; color: var(--secondary); flex-shrink: 0; }
 .contact-row .value { font-weight: 500; color: var(--on-surface); }
+.contact-row .value--addr { flex: 1; min-width: 0; line-height: 1.35; text-decoration: underline; text-decoration-color: var(--red); text-underline-offset: 2px; }
 
 /* ---------- App bar (формы) ---------- */
 .appbar {

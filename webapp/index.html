@@ -76,12 +76,8 @@
     <footer class="footer">
       <div class="contact-box">
         <div class="contact-row">
-          <span class="value">г. Минск, ГСК «Овощник»</span>
+          <a class="value value--addr" id="addr-link" href="https://yandex.by/maps/-/CXqGaTpQ">Минский район, Новодворский сельсовет, ГСК Овощник</a>
           <span class="label">База</span>
-        </div>
-        <div class="contact-row">
-          <a class="value" href="tel:+3752900000000">+375 (29) 000-00-00</a>
-          <span class="label">Звонок</span>
         </div>
       </div>
     </footer>
@@ -101,6 +97,15 @@
       });
     } else if (!LT.isInTelegram()) {
       document.getElementById('notice').classList.add('is-visible');
+    }
+
+    // Адрес базы — открываем во внешнем браузере (Yandex Maps).
+    const addrLink = document.getElementById('addr-link');
+    if (addrLink) {
+      addrLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        LT.openExternal(addrLink.href);
+      });
     }
   </script>
 </body>
