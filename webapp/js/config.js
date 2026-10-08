@@ -4,4 +4,4 @@
 //   - Локальная разработка: оставить '' (запросы идут на тот же origin)
 //     или 'http://localhost:8000'.
 //   - Продакшн (GitHub Pages): 'https://<ваш-бэкенд-домен>'.
-window.API_BASE = '';
+window.API_BASE = 'https://lizardtrail-bot.avr-logic.by';
