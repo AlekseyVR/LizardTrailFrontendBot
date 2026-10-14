@@ -88,6 +88,15 @@ window.LT = (function () {
     }
   }
 
+  // Любая ссылка с классом .js-ext-link открывается во внешнем браузере
+  // (в Telegram — через tg.openLink): адрес базы, «Powered by» и т.п.
+  document.addEventListener('click', (e) => {
+    const a = e.target && e.target.closest ? e.target.closest('a.js-ext-link') : null;
+    if (!a) return;
+    e.preventDefault();
+    openExternal(a.href);
+  });
+
   // Заставка загрузки: прячем, когда приложение готово.
   // Держим на экране минимум MIN_MS, чтобы не было «мигания».
   const LOADER_MIN_MS = 420;

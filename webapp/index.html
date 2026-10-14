@@ -18,7 +18,7 @@
     <img class="lt-loader__wheel" src="img/wheel.svg" alt="" />
     <div class="lt-loader__powered">
       <span>Powered by</span>
-      <img src="img/avr-logic.webp" alt="AVR Logic" />
+      <a class="js-ext-link" href="https://avr-logic.by/" aria-label="AVR Logic"><img src="img/avr-logic.webp" alt="AVR Logic" /></a>
     </div>
   </div>
   <div class="screen">
@@ -86,13 +86,13 @@
     <footer class="footer">
       <div class="contact-box">
         <div class="contact-row">
-          <a class="value value--addr" id="addr-link" href="https://yandex.by/maps/-/CXqGaTpQ">Минский район, Новодворский сельсовет, ГСК Овощник</a>
+          <a class="value value--addr js-ext-link" id="addr-link" href="https://yandex.by/maps/-/CXqGaTpQ">Минский район, Новодворский сельсовет, ГСК Овощник</a>
           <span class="label">База</span>
         </div>
       </div>
       <div class="powered">
         <span>Powered by</span>
-        <img src="img/avr-logic.webp" alt="AVR Logic" />
+        <a class="js-ext-link" href="https://avr-logic.by/" aria-label="AVR Logic"><img src="img/avr-logic.webp" alt="AVR Logic" /></a>
       </div>
     </footer>
 
@@ -113,15 +113,6 @@
     } else {
       if (!LT.isInTelegram()) document.getElementById('notice').classList.add('is-visible');
       LT.hideLoader();
-    }
-
-    // Адрес базы — открываем во внешнем браузере (Yandex Maps).
-    const addrLink = document.getElementById('addr-link');
-    if (addrLink) {
-      addrLink.addEventListener('click', (e) => {
-        e.preventDefault();
-        LT.openExternal(addrLink.href);
-      });
     }
   </script>
 </body>

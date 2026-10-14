@@ -463,3 +463,6 @@ button { font-family: inherit; cursor: pointer; }
   font-size: 11px; color: var(--secondary); letter-spacing: 0.02em;
 }
 .lt-loader__powered img { height: 20px; width: auto; display: block; }
+
+/* Логотип разработчика — кликабельная ссылка */
+.powered a, .lt-loader__powered a { display: block; line-height: 0; text-decoration: none; }
