@@ -447,3 +447,19 @@ button { font-family: inherit; cursor: pointer; }
 .lt-loader__wheel { width: 54px; height: 54px; display: block; animation: lt-wheel-spin 0.85s linear infinite; }
 @keyframes lt-wheel-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 @media (prefers-reduced-motion: reduce) { .lt-loader__wheel { animation-duration: 2.6s; } }
+
+/* ---------- Powered by (подпись разработчика) ---------- */
+.powered {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 16px 0 6px;
+  font-size: 11px; color: var(--secondary); letter-spacing: 0.02em;
+}
+.powered img { height: 18px; width: auto; display: block; opacity: 0.9; }
+
+/* Подпись в заставке — прижата к низу экрана */
+.lt-loader__powered {
+  position: absolute; left: 0; right: 0; bottom: 26px;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  font-size: 11px; color: var(--secondary); letter-spacing: 0.02em;
+}
+.lt-loader__powered img { height: 20px; width: auto; display: block; }
